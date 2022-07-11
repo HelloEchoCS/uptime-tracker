@@ -1,0 +1,1 @@
+A small scale recreation of Uptime-kuma.

@@ -1,0 +1,23 @@
+<p>
+  <h2>New Tracker</h2>
+</p>
+
+<form action="/add" method="post">
+  <ul>
+    <li>
+      <lable for="tracker_type">Tracker Type</label>
+      <select name="tracker_type" value=<%== params[:tracker_type] %>>
+        <option value="http">HTTP(s)</option>
+      </select>
+    </li>
+    <li>
+      <lable for="tracker_name">Friendly Name</label>
+      <input name="tracker_name" type="text" value=<%== params[:name] %>>
+    </li>
+    <li>
+      <lable for="url">URL</label>
+      <input name="url" type="text" value=<%== params[:url] %>>
+    </li>
+  </ul>
+  <button type="submit">Save</button>
+</form>

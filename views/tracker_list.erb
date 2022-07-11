@@ -1,0 +1,19 @@
+<p>
+  <h2>List</h2>
+</p>
+
+<ul>
+  <% @all_trackers.each do |tuple| %>
+  <li>
+    <p><%== "#{tuple['name']} #{tuple['tracker_type']}" %></p>
+  </li>
+  <% end %>
+</ul>
+
+<p>
+  <a href="/add">New Tracker</a>
+</p>
+
+<%# <p>
+  <a href="/debug"> Test Me! </a>
+</p> %>
