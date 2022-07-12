@@ -5,7 +5,7 @@
 <ul>
   <% @all_trackers.each do |tuple| %>
   <li>
-    <p><%== "#{tuple['name']} #{tuple['tracker_type']}" %></p>
+    <p><%== "#{tuple['name']} #{tuple['tracker_type']} #{tuple['tracker_status']}" %></p>
   </li>
   <% end %>
 </ul>

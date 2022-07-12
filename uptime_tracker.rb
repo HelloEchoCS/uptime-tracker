@@ -4,21 +4,22 @@ require 'tilt/erubis'
 require 'pry'
 
 require_relative 'data_persistence'
-require_relative 'tracker_engine'
+require_relative 'tracker_service'
 
 configure do
   set :erb, :escape_html => true
+  # @tracker_service = TrackerService.new(@storage)
+  # @tracker_service.run
 end
 
 configure(:development) do
   require 'sinatra/reloader'
-  also_reload 'database_persistence.rb'
+  also_reload 'data_persistence.rb'
+  also_reload 'tracker_service.rb'
 end
 
 before do
   @storage = DataPersistence.new
-  # @tracker_service = TrackerOrchestration.new
-  # @tracker_service.run
 end
 
 after do
@@ -30,7 +31,7 @@ get '/' do
 end
 
 get '/trackers' do
-  @all_trackers = @storage.all_trackers
+  @all_trackers = @storage.all_trackers_with_status
   erb :tracker_list, layout: :layout
 end
 
@@ -43,6 +44,11 @@ post '/add' do
   tracker_type = params[:tracker_type]
   url = params[:url]
   @storage.add_new_tracker(tracker_name, tracker_type, url)
+
+  tracker_id = @storage.get_most_recent_tracker_id
+  tracker = Tracker.new(url)
+  query_result = tracker.service_up?
+  @storage.add_query_record(query_result, tracker_id)
 
   redirect '/trackers'
 end
