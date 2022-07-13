@@ -5,7 +5,10 @@
 <ul>
   <% @all_trackers.each do |tuple| %>
   <li>
-    <p><%== "#{tuple['name']} #{tuple['tracker_type']} #{tuple['tracker_status']}" %></p>
+    <p>
+      <%== "#{tuple['name']} #{tuple['tracker_type']} #{tuple['tracker_status']}" %>
+      <a href="/edit/<%== tuple['id'] %>">Edit</a>
+    </p>
   </li>
   <% end %>
 </ul>

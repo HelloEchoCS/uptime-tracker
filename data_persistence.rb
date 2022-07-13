@@ -12,7 +12,7 @@ class DataPersistence
           WHERE trackers.id = queries.tracker_id
           ORDER BY query_time DESC
           LIMIT 1 ) AS tracker_status
-      FROM trackers;
+      FROM trackers ORDER BY id;
     SQL
     query(sql)
   end
@@ -20,6 +20,11 @@ class DataPersistence
   def all_trackers
     sql = 'SELECT * FROM trackers;'
     query(sql)
+  end
+
+  def get_tracker_data(tracker_id)
+    sql = 'SELECT * FROM trackers WHERE id = $1;'
+    query(sql, tracker_id)
   end
 
   def add_new_tracker(name, type, url)
@@ -32,10 +37,19 @@ class DataPersistence
     query(sql, query_result, tracker_id)
   end
 
-  def get_most_recent_tracker_id
-    sql = 'SELECT id FROM trackers ORDER BY id DESC LIMIT 1;'
-    result = query(sql)
-    result.values.flatten[0]
+  def get_last_created_tracker
+    sql = 'SELECT * FROM trackers WHERE id = (SELECT max(id) FROM trackers);'
+    query(sql)
+  end
+
+  def update_tracker(tracker_id, name, type, url)
+    sql = 'UPDATE trackers SET name = $1, tracker_type = $2, url = $3 WHERE id = $4;'
+    query(sql, name, type, url, tracker_id)
+  end
+
+  def delete_tracker(tracker_id)
+    sql = 'DELETE FROM trackers WHERE id = $1;'
+    query(sql, tracker_id)
   end
 
   private

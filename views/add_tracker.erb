@@ -1,8 +1,8 @@
 <p>
-  <h2>New Tracker</h2>
+  <h2><%== params[:title] %></h2>
 </p>
 
-<form action="/add" method="post">
+<form action="/save<%== "/#{params[:id]}" if params[:id] %>" method="post">
   <ul>
     <li>
       <lable for="tracker_type">Tracker Type</label>

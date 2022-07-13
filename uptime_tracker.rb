@@ -39,18 +39,36 @@ get '/add' do
   erb :add_tracker, layout: :layout
 end
 
-post '/add' do
+post '/save/:id' do
+  params[:title] = 'New Tracker'
   tracker_name = params[:tracker_name]
   tracker_type = params[:tracker_type]
   url = params[:url]
-  @storage.add_new_tracker(tracker_name, tracker_type, url)
+  id = params[:id]
+  if id
+    @storage.update_tracker(id, tracker_name, tracker_type, url)
+    result = @storage.get_tracker_data(id.to_i)
+  else
+    @storage.add_new_tracker(tracker_name, tracker_type, url)
+    result = @storage.get_last_created_tracker
+  end
 
-  tracker_id = @storage.get_most_recent_tracker_id
-  tracker = Tracker.new(url)
+  tracker = Tracker.new(result.first)
   query_result = tracker.service_up?
-  @storage.add_query_record(query_result, tracker_id)
+  @storage.add_query_record(query_result, tracker.id)
 
   redirect '/trackers'
+end
+
+get '/edit/:id' do
+  result = @storage.get_tracker_data(params[:id].to_i) # to_i?
+  tracker = Tracker.new(result.first)
+  params[:title] = 'Edit'
+  params[:name] = tracker.name
+  params[:tracker_type] = tracker.type
+  params[:url] = tracker.url
+
+  erb :add_tracker, layout: :layout
 end
 
 # get '/debug' do
