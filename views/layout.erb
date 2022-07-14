@@ -3,21 +3,23 @@
   <head>
     <title>Uptime Tracker</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/pure-min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
   </head>
 
   <body>
-    <header>
-      <h1>
-        <a href="/trackers">Uptime Trackers</a>
-      </h1>
-    </header>
-
-    <main>
-      <%== yield %>
-    </main>
-
-    <footer>
-      <p>Made by Chris Shen, 2022</p>
-    </footer>
+    <div id="layout" class="content pure-g">
+      <div id="nav" class="pure-u">
+        <div class="nav-title">
+          <a href="/trackers"><h1>Uptime Tracker</h1></a>
+        </div>
+      </div>
+      <div id="list" class="pure-u-1">
+        <%== yield %>
+      </div>
+      <div id="footer" class="pure-u-1">
+        <p>Made by Chris Shen, 2022</p>
+      </div>
+    </div>
   </body>
 </html>

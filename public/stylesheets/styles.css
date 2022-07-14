@@ -1,0 +1,50 @@
+.content {
+  padding: 1em;
+}
+
+.content a:link {
+  text-decoration: none;
+  color: green;
+}
+
+.content a:visited {
+  text-decoration: none;
+  color: green;
+}
+
+.content a:hover {
+  text-decoration: underline;
+}
+
+.nav-title a {
+  color: green;
+}
+
+.nav-title a:hover {
+  text-decoration: none;
+}
+
+.tracker {
+  margin: 0.25em 0em;
+}
+
+.new-tracker-button {
+  margin-top: 2em;
+}
+
+.new-tracker-button a:link {
+  color: white;
+}
+
+.new-tracker-button a:visited {
+  color: white;
+}
+
+.new-tracker-button a:hover {
+  text-decoration: none;
+}
+
+.tracker-type {
+  background-color: green;
+  color: white;
+}

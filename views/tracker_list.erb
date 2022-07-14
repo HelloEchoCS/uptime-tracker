@@ -1,21 +1,43 @@
-<p>
+<div class="pure-u-1">
   <h2>List</h2>
-</p>
+</div>
 
-<ul>
-  <% @all_trackers.each do |tuple| %>
-  <li>
-    <p>
-      <%== "#{tuple['name']} #{tuple['tracker_type']} #{tuple['tracker_status']}" %>
-      <a href="/edit/<%== tuple['id'] %>">Edit</a>
-    </p>
-  </li>
-  <% end %>
-</ul>
+<div class="pure-u-1">
+  <div class="tracker-list pure-g">
+    <% @all_trackers.each do |tuple| %>
+    <div class="pure-u-1">
+      <div class="tracker">
+        <div class="pure-g">
+          <div class="pure-u-1-24">
 
-<p>
-  <a href="/add">New Tracker</a>
-</p>
+          </div>
+          <div class="pure-u-1-5">
+            <%== tuple['name'] %>
+          </div>
+          <div class="pure-u-1-5">
+              <span class="tracker-type"><%== tuple['tracker_type'] %></span>
+          </div>
+          <div class="pure-u-1-5">
+            <%== convert_sql_tf(tuple['tracker_status']) %>
+          </div>
+          <div class="pure-u-1-24">
+            <a href="/edit/<%== tuple['id'] %>">Edit</a>
+          </div>
+          <div class="pure-u-1-24">
+            <a href="/delete/<%== tuple['id'] %>">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="pure-u-1">
+  <div class="new-tracker-button">
+    <a class="pure-button pure-button-primary" href="/add">New Tracker</a>
+  </div>
+</div>
 
 <%# <p>
   <a href="/debug"> Test Me! </a>

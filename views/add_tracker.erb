@@ -1,23 +1,22 @@
-<p>
+<div class="pure-u-1">
   <h2><%== params[:title] %></h2>
-</p>
+</div>
 
-<form action="/save<%== "/#{params[:id]}" if params[:id] %>" method="post">
-  <ul>
-    <li>
+<div class="pure-u-1">
+  <fieldset>
+    <form class="pure-form pure-form-stacked" action="/save<%== "/#{params[:id]}" if params[:id] %>" method="post">
       <lable for="tracker_type">Tracker Type</label>
-      <select name="tracker_type" value=<%== params[:tracker_type] %>>
+      <select name="tracker_type" value="<%== params[:tracker_type] %>"/>
         <option value="http">HTTP(s)</option>
       </select>
-    </li>
-    <li>
+
       <lable for="tracker_name">Friendly Name</label>
-      <input name="tracker_name" type="text" value=<%== params[:name] %>>
-    </li>
-    <li>
+      <input class="pure-input-1-3" name="tracker_name" type="text" value="<%== params[:name] %>"/>
+
       <lable for="url">URL</label>
-      <input name="url" type="text" value=<%== params[:url] %>>
-    </li>
-  </ul>
-  <button type="submit">Save</button>
-</form>
+      <input class="pure-input-1-3" name="url" type="text" required="" value="<%== params[:url] || 'https://' %>"/>
+
+      <button type="submit" class="pure-button pure-button-primary">Save</button>
+    </form>
+  </fieldset>
+</div>
