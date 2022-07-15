@@ -88,6 +88,12 @@ get '/edit/:id' do
   erb :add_tracker, layout: :layout
 end
 
+post '/delete/:id' do
+  @storage.delete_tracker(params[:id].to_i)
+
+  redirect '/trackers'
+end
+
 # get '/debug' do
 #   engine = TrackerEngine.new
 #   res = engine.send_request('https://www.google.com')

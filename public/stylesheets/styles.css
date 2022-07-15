@@ -1,27 +1,44 @@
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  :root {
+      --body-bg: #FFFFFF;
+      --body-color: #000000;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+      --body-bg: #14151b;
+      --body-color: #FFFFFF;
+  }
+}
+
+body {
+  background: var(--body-bg);
+  color: var(--body-color);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 300,
+  'GRAD' 0,
+  'opsz' 20
+}
+
 .content {
   padding: 1em;
 }
 
 .content a:link {
   text-decoration: none;
-  color: green;
+  color: white;
 }
 
 .content a:visited {
   text-decoration: none;
-  color: green;
-}
-
-.content a:hover {
-  text-decoration: underline;
-}
-
-.nav-title a {
-  color: green;
-}
-
-.nav-title a:hover {
-  text-decoration: none;
+  color: white;
 }
 
 .tracker {
@@ -30,6 +47,10 @@
 
 .new-tracker-button {
   margin-top: 2em;
+}
+
+.pure-button {
+  border-radius: 12px;
 }
 
 .new-tracker-button a:link {
@@ -44,7 +65,29 @@
   text-decoration: none;
 }
 
-.tracker-type {
-  background-color: green;
+.pills {
+  font-size: 0.70em;
   color: white;
+  border-radius: 6px;
+  padding: 4px;
+  background-color: blue;
+}
+
+.inline {
+  display: inline;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+}
+
+#percentage-up {
+  background-color: green;
+}
+
+#percentage-down {
+  background-color: red;
 }

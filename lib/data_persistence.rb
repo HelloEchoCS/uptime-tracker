@@ -11,7 +11,10 @@ class DataPersistence
         ( SELECT success FROM queries
           WHERE trackers.id = queries.tracker_id
           ORDER BY query_time DESC
-          LIMIT 1 ) AS tracker_status
+          LIMIT 1 ) AS tracker_status,
+        ( SELECT round((SELECT count(id) FROM queries WHERE queries.tracker_id = trackers.id AND success = 't')/count(id)*100, 1)
+          FROM queries
+          WHERE queries.tracker_id = trackers.id) AS percentage
       FROM trackers ORDER BY id;
     SQL
     query(sql)

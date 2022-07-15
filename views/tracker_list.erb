@@ -9,22 +9,28 @@
       <div class="tracker">
         <div class="pure-g">
           <div class="pure-u-1-24">
-
+            <span id="percentage-<%== convert_sql_tf(tuple['tracker_status']).downcase %>" class="pills">
+              <%== "#{tuple['percentage']}%" %>
+            </span>
           </div>
           <div class="pure-u-1-5">
             <%== tuple['name'] %>
           </div>
-          <div class="pure-u-1-5">
-              <span class="tracker-type"><%== tuple['tracker_type'] %></span>
+          <div class="pure-u-1-24">
+            <span class="pills"><%== tuple['tracker_type'] %></span>
           </div>
-          <div class="pure-u-1-5">
+          <div class="pure-u-1-24">
             <%== convert_sql_tf(tuple['tracker_status']) %>
           </div>
-          <div class="pure-u-1-24">
-            <a href="/edit/<%== tuple['id'] %>">Edit</a>
-          </div>
-          <div class="pure-u-1-24">
-            <a href="/delete/<%== tuple['id'] %>">Delete</a>
+          <div class="pure-u-2-24">
+            <a href="/edit/<%== tuple['id'] %>">
+              <span class="material-symbols-outlined">tune</span>
+            </a>
+            <form method="post" action="/delete/<%== tuple['id'] %>" class="inline">
+              <button type="submit" class="link-button">
+              <span class="material-symbols-outlined">delete</span>
+              </button>
+            </form>
           </div>
         </div>
       </div>
