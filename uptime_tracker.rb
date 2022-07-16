@@ -115,8 +115,8 @@ post '/pause/:id' do
   redirect '/trackers'
 end
 
-post '/start/:id' do
-  @storage.start_tracker(params[:id].to_i)
+post '/run/:id' do
+  @storage.run_tracker(params[:id].to_i)
 
   session[:success] = 'Tracker started.'
   redirect '/trackers'
