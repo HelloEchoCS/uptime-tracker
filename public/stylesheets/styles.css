@@ -42,8 +42,7 @@ body {
 }
 
 .flash {
-  margin: 4px;
-  background: none;
+  padding: 4px;
 }
 
 .flash.flash-success {
@@ -96,7 +95,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  color: red;
+  color: white
 }
 
 #percentage-up {

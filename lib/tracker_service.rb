@@ -1,6 +1,5 @@
 require 'uri'
 require 'net/http'
-require 'pry'
 
 class Tracker
   attr_reader :id, :url, :type, :name
@@ -12,20 +11,18 @@ class Tracker
     @name = tuple['name']
   end
 
-  def service_up?
-    get_response_code == '200'
-  end
-
-  private
-
-  def get_response_code
-    uri = URI(@url)
+  def fetch(uri, limit = 10)
     begin
       response = Net::HTTP.get_response(uri)
-    rescue SocketError => e
-      return e.message
+    rescue => error
+      return error
     end
-    response.code
+    if Net::HTTPRedirection === response
+      location = URI(response['location'])
+      fetch(location, limit - 1)
+    else
+      response
+    end
   end
 end
 
@@ -40,11 +37,26 @@ class TrackerService
       trackers = @storage.all_trackers
       trackers.each do |tuple|
         next if tuple['run_status'] == 'pause'
-        tracker = Tracker.new(tuple)
-        query_result = tracker.service_up?
-        @storage.add_query_record(query_result, tracker.id)
+        run_once(tuple)
       end
-      sleep 30
+      sleep 60
+    end
+  end
+
+  def run_once(tuple)
+    tracker = Tracker.new(tuple)
+    response = tracker.fetch(URI(tracker.url))
+    status = determine_status(response)
+    @storage.add_query_record(status, tracker.id)
+    response
+  end
+
+  def determine_status(response)
+    case response
+    when Net::HTTPSuccess then
+      'Up'
+    else
+      'Down'
     end
   end
 end

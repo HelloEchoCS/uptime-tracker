@@ -9,7 +9,7 @@
       <div class="tracker">
         <div class="pure-g">
           <div class="pure-u-1-24">
-            <span id="percentage-<%== convert_sql_tf(tuple['tracker_status']).downcase %>" class="pills">
+            <span id="percentage-<%== tuple['tracker_status'].downcase %>" class="pills">
               <%== "#{tuple['percentage']}%" %>
             </span>
           </div>
@@ -18,7 +18,7 @@
             <span class="pills"><%== tuple['tracker_type'] %></span>
           </div>
           <div class="pure-u-1-24">
-            <%== convert_sql_tf(tuple['tracker_status']) %>
+            <%== tuple['tracker_status'] %>
           </div>
           <div class="pure-u-1-5">
             <a href="/edit/<%== tuple['id'] %>">

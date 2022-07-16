@@ -8,11 +8,11 @@ class DataPersistence
   def all_trackers_with_status
     sql = <<~SQL
       SELECT id, name, tracker_type, run_status,
-        ( SELECT success FROM queries
+        ( SELECT tracker_status FROM queries
           WHERE trackers.id = queries.tracker_id
           ORDER BY query_time DESC
           LIMIT 1 ) AS tracker_status,
-        ( SELECT round((SELECT count(id) FROM queries WHERE queries.tracker_id = trackers.id AND success = 't')/count(id)*100, 1)
+        ( SELECT round((SELECT count(id) FROM queries WHERE queries.tracker_id = trackers.id AND queries.tracker_status = 'Up')/count(id)::numeric * 100, 1)
           FROM queries
           WHERE queries.tracker_id = trackers.id) AS percentage
       FROM trackers ORDER BY id;
@@ -36,7 +36,7 @@ class DataPersistence
   end
 
   def add_query_record(query_result, tracker_id)
-    sql = 'INSERT INTO queries (success, tracker_id) VALUES ($1, $2);'
+    sql = 'INSERT INTO queries (tracker_status, tracker_id) VALUES ($1, $2);'
     query(sql, query_result, tracker_id)
   end
 

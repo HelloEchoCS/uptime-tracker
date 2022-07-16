@@ -13,20 +13,20 @@
 
   <body>
     <div id="layout" class="content pure-g">
-      <div class="pure-u-1">
-        <div class="flash flash-success">
-          <% if session[:success] %>
-            <%== session.delete(:success) %>
-          <% end %>
+      <% if session[:success] %>
+        <div class="pure-u-1">
+          <div class="flash flash-success">
+              <%== session.delete(:success) %>
+          </div>
         </div>
-      </div>
-      <div class="pure-u-1">
-        <div class="flash flash-error">
-          <% if session[:error] %>
+      <% end %>
+      <% if session[:error] %>
+        <div class="pure-u-1">
+          <div class="flash flash-error">
             <%== session.delete(:error) %>
-          <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
       <div id="nav" class="pure-u-1">
         <div class="nav-title">
           <a href="/trackers"><h1>Uptime Tracker</h1></a>

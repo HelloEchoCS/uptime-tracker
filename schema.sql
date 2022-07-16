@@ -9,6 +9,6 @@ CREATE TABLE trackers (
 CREATE TABLE queries (
   id serial PRIMARY KEY,
   query_time timestamp NOT NULL DEFAULT now(),
-  success boolean NOT NULL,
+  tracker_status text NOT NULL,
   tracker_id integer NOT NULL REFERENCES trackers(id) ON DELETE CASCADE
 );

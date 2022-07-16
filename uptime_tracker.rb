@@ -1,11 +1,9 @@
 require 'sinatra'
 require 'sinatra/content_for'
 require 'tilt/erubis'
-require 'pry'
 
 require_relative 'lib/data_persistence'
 require_relative 'lib/tracker_service'
-require_relative 'lib/session_persistence'
 
 configure do
   enable :sessions
@@ -32,11 +30,6 @@ after do
 end
 
 helpers do
-  def convert_sql_tf(sql_boolean)
-    return 'Up' if sql_boolean == 't'
-    'Down'
-  end
-
   def determine_run_pause(run_status)
     return 'run' if run_status == 'pause'
     'pause'
@@ -64,12 +57,14 @@ post '/save' do
   @storage.add_new_tracker(tracker_name, tracker_type, url)
   result = @storage.get_last_created_tracker
 
-  tracker = Tracker.new(result.first)
-  query_result = tracker.service_up?
-  @storage.add_query_record(query_result, tracker.id)
+  response = TrackerService.new(@storage).run_once(result.first)
 
-  session[:success] = 'New tracker created.'
-
+  if Net::HTTPSuccess === response
+    session[:success] = "New tracker created. #{response.code} - #{response.message}"
+  else
+    session[:success] = "New tracker created."
+    session[:error] = response.message
+  end
   redirect '/trackers'
 end
 
@@ -81,11 +76,14 @@ post '/save/:id' do
   @storage.update_tracker(id, tracker_name, tracker_type, url)
   result = @storage.get_tracker_data(id.to_i)
 
-  tracker = Tracker.new(result.first)
-  query_result = tracker.service_up?
-  @storage.add_query_record(query_result, tracker.id)
+  response = TrackerService.new(@storage).run_once(result.first)
 
-  session[:success] = 'Saved.'
+  if Net::HTTPSuccess === response
+    session[:success] = "New tracker created. #{response.code} - #{response.message}"
+  else
+    session[:success] = "New tracker created."
+    session[:error] = response.message
+  end
 
   redirect '/trackers'
 end
