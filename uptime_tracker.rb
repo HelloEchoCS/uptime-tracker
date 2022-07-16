@@ -42,6 +42,7 @@ end
 
 get '/trackers' do
   @all_trackers = @storage.all_trackers_with_status
+  @recent_queries = @storage.get_recent_queries
   erb :tracker_list, layout: :layout
 end
 

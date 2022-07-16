@@ -54,6 +54,31 @@
   </div>
 </div>
 
+<div class="pure-u-1">
+  <h4>Recent Queries</h4>
+</div>
+
+<div class="pure-u-1">
+  <table class="pure-table pure-table-horizontal">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>TimeStamp</th>
+        <th>Tracker URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recent_queries.each do |tuple| %>
+      <tr>
+        <td><%== tuple['tracker_status'] %></td>
+        <td><%== tuple['query_time'] %></td>
+        <td><%== tuple['url'] %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 <%# <p>
   <a href="/debug"> Test Me! </a>
 </p> %>

@@ -69,6 +69,11 @@ class DataPersistence
     query(sql, tracker_id)
   end
 
+  def get_recent_queries
+    sql = 'SELECT * FROM queries INNER JOIN trackers ON queries.tracker_id = trackers.id ORDER BY query_time DESC LIMIT 5;'
+    query(sql)
+  end
+
   def disconnect
     @db.close
   end
