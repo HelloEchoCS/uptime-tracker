@@ -15,20 +15,29 @@
           </div>
           <div class="pure-u-1-5">
             <%== tuple['name'] %>
-          </div>
-          <div class="pure-u-1-24">
             <span class="pills"><%== tuple['tracker_type'] %></span>
           </div>
           <div class="pure-u-1-24">
             <%== convert_sql_tf(tuple['tracker_status']) %>
           </div>
-          <div class="pure-u-2-24">
+          <div class="pure-u-1-5">
             <a href="/edit/<%== tuple['id'] %>">
               <span class="material-symbols-outlined">tune</span>
             </a>
             <form method="post" action="/delete/<%== tuple['id'] %>" class="inline">
               <button type="submit" class="link-button">
               <span class="material-symbols-outlined">delete</span>
+              </button>
+            </form>
+            <form method="post" action="/<%== determine_run_pause(tuple['run_status']) %>/<%== tuple['id'] %>" class="inline">
+              <button type="submit" class="link-button">
+              <span class="material-symbols-outlined">
+                <% if tuple['run_status'] == 'run' %>
+                  <%== 'pause' %>
+                <% else %>
+                  <%== 'play_arrow' %>
+                <% end %>
+              </span>
               </button>
             </form>
           </div>

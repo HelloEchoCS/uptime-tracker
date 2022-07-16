@@ -7,7 +7,7 @@ class DataPersistence
 
   def all_trackers_with_status
     sql = <<~SQL
-      SELECT id, name, tracker_type,
+      SELECT id, name, tracker_type, run_status,
         ( SELECT success FROM queries
           WHERE trackers.id = queries.tracker_id
           ORDER BY query_time DESC
@@ -52,6 +52,16 @@ class DataPersistence
 
   def delete_tracker(tracker_id)
     sql = 'DELETE FROM trackers WHERE id = $1;'
+    query(sql, tracker_id)
+  end
+
+  def pause_tracker(tracker_id)
+    sql = "UPDATE trackers SET run_status = 'pause' WHERE id = $1;"
+    query(sql, tracker_id)
+  end
+
+  def run_tracker(tracker_id)
+    sql = "UPDATE trackers SET run_status = 'run' WHERE id = $1;"
     query(sql, tracker_id)
   end
 

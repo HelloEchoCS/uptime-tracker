@@ -41,6 +41,21 @@ body {
   color: white;
 }
 
+.flash {
+  margin: 4px;
+  background: none;
+}
+
+.flash.flash-success {
+  background: green;
+  color: white;
+}
+
+.flash.flash-error {
+  background: red;
+  color: white;
+}
+
 .tracker {
   margin: 0.25em 0em;
 }

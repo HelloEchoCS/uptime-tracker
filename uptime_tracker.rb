@@ -5,12 +5,16 @@ require 'pry'
 
 require_relative 'lib/data_persistence'
 require_relative 'lib/tracker_service'
+require_relative 'lib/session_persistence'
 
 configure do
+  enable :sessions
+  set :session_secret, 'secret'
   set :erb, :escape_html => true
-  # @storage = DataPersistence.new
-  # @tracker_service = TrackerService.new(@storage)
-  # @tracker_service.run
+  @storage = DataPersistence.new
+  @tracker_service = TrackerService.new(@storage)
+  Thread.abort_on_exception = true
+  Thread.new { @tracker_service.run }
 end
 
 configure(:development) do
@@ -31,6 +35,11 @@ helpers do
   def convert_sql_tf(sql_boolean)
     return 'Up' if sql_boolean == 't'
     'Down'
+  end
+
+  def determine_run_pause(run_status)
+    return 'run' if run_status == 'pause'
+    'pause'
   end
 end
 
@@ -59,6 +68,8 @@ post '/save' do
   query_result = tracker.service_up?
   @storage.add_query_record(query_result, tracker.id)
 
+  session[:success] = 'New tracker created.'
+
   redirect '/trackers'
 end
 
@@ -73,6 +84,8 @@ post '/save/:id' do
   tracker = Tracker.new(result.first)
   query_result = tracker.service_up?
   @storage.add_query_record(query_result, tracker.id)
+
+  session[:success] = 'Saved.'
 
   redirect '/trackers'
 end
@@ -91,11 +104,21 @@ end
 post '/delete/:id' do
   @storage.delete_tracker(params[:id].to_i)
 
+  session[:success] = 'Deleted.'
+
   redirect '/trackers'
 end
 
-# get '/debug' do
-#   engine = TrackerEngine.new
-#   res = engine.send_request('https://www.google.com')
-#   res.code
-# end
+post '/pause/:id' do
+  @storage.pause_tracker(params[:id].to_i)
+
+  session[:success] = 'Paused.'
+  redirect '/trackers'
+end
+
+post '/start/:id' do
+  @storage.start_tracker(params[:id].to_i)
+
+  session[:success] = 'Tracker started.'
+  redirect '/trackers'
+end
