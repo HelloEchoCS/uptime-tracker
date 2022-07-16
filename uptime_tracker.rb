@@ -26,7 +26,7 @@ before do
 end
 
 after do
-  # @tracker_service.stop
+  @storage.disconnect
 end
 
 helpers do

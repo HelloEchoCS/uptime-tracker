@@ -2,7 +2,11 @@ require 'pg'
 
 class DataPersistence
   def initialize
-    @storage = PG.connect(dbname: 'uptime-tracker')
+    @db = if Sinatra::Base.production?
+      PG.connect(ENV['DATABASE_URL'])
+    else
+      PG.connect(dbname: 'uptime-tracker')
+    end
   end
 
   def all_trackers_with_status
@@ -65,9 +69,13 @@ class DataPersistence
     query(sql, tracker_id)
   end
 
+  def disconnect
+    @db.close
+  end
+
   private
 
   def query(sql, *params)
-    @storage.exec_params(sql, params)
+    @db.exec_params(sql, params)
   end
 end
